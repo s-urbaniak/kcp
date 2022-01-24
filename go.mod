@@ -34,30 +34,30 @@ require (
 )
 
 replace (
-	k8s.io/api => /Users/angoldst/go/src/k8s.io/kubernetes/staging/src/k8s.io/api
-	k8s.io/apiextensions-apiserver => /Users/angoldst/go/src/k8s.io/kubernetes/staging/src/k8s.io/apiextensions-apiserver
-	k8s.io/apimachinery => /Users/angoldst/go/src/k8s.io/kubernetes/staging/src/k8s.io/apimachinery
-	k8s.io/apiserver => /Users/angoldst/go/src/k8s.io/kubernetes/staging/src/k8s.io/apiserver
-	k8s.io/cli-runtime => /Users/angoldst/go/src/k8s.io/kubernetes/staging/src/k8s.io/cli-runtime
-	k8s.io/client-go => /Users/angoldst/go/src/k8s.io/kubernetes/staging/src/k8s.io/client-go
-	k8s.io/cloud-provider => /Users/angoldst/go/src/k8s.io/kubernetes/staging/src/k8s.io/cloud-provider
-	k8s.io/cluster-bootstrap => /Users/angoldst/go/src/k8s.io/kubernetes/staging/src/k8s.io/cluster-bootstrap
-	k8s.io/code-generator => /Users/angoldst/go/src/k8s.io/kubernetes/staging/src/k8s.io/code-generator
-	k8s.io/component-base => /Users/angoldst/go/src/k8s.io/kubernetes/staging/src/k8s.io/component-base
-	k8s.io/component-helpers => /Users/angoldst/go/src/k8s.io/kubernetes/staging/src/k8s.io/component-helpers
-	k8s.io/controller-manager => /Users/angoldst/go/src/k8s.io/kubernetes/staging/src/k8s.io/controller-manager
-	k8s.io/cri-api => /Users/angoldst/go/src/k8s.io/kubernetes/staging/src/k8s.io/cri-api
-	k8s.io/csi-translation-lib => /Users/angoldst/go/src/k8s.io/kubernetes/staging/src/k8s.io/csi-translation-lib
-	k8s.io/kube-aggregator => /Users/angoldst/go/src/k8s.io/kubernetes/staging/src/k8s.io/kube-aggregator
-	k8s.io/kube-controller-manager => /Users/angoldst/go/src/k8s.io/kubernetes/staging/src/k8s.io/kube-controller-manager
-	k8s.io/kube-proxy => /Users/angoldst/go/src/k8s.io/kubernetes/staging/src/k8s.io/kube-proxy
-	k8s.io/kube-scheduler => /Users/angoldst/go/src/k8s.io/kubernetes/staging/src/k8s.io/kube-scheduler
-	k8s.io/kubectl => /Users/angoldst/go/src/k8s.io/kubernetes/staging/src/k8s.io/kubectl
-	k8s.io/kubelet => /Users/angoldst/go/src/k8s.io/kubernetes/staging/src/k8s.io/kubelet
-	k8s.io/kubernetes => /Users/angoldst/go/src/k8s.io/kubernetes
-	k8s.io/legacy-cloud-providers => /Users/angoldst/go/src/k8s.io/kubernetes/staging/src/k8s.io/legacy-cloud-providers
-	k8s.io/metrics => /Users/angoldst/go/src/k8s.io/kubernetes/staging/src/k8s.io/metrics
-	k8s.io/mount-utils => /Users/angoldst/go/src/k8s.io/kubernetes/staging/src/k8s.io/mount-utils
-	k8s.io/pod-security-admission => /Users/angoldst/go/src/k8s.io/kubernetes/staging/src/k8s.io/pod-security-admission
-	k8s.io/sample-apiserver => /Users/angoldst/go/src/k8s.io/kubernetes/staging/src/k8s.io/sample-apiserver
+	k8s.io/api => /Users/surbania/projects/kcp/kubernetes/staging/src/k8s.io/api
+	k8s.io/apiextensions-apiserver => /Users/surbania/projects/kcp/kubernetes/staging/src/k8s.io/apiextensions-apiserver
+	k8s.io/apimachinery => /Users/surbania/projects/kcp/kubernetes/staging/src/k8s.io/apimachinery
+	k8s.io/apiserver => /Users/surbania/projects/kcp/kubernetes/staging/src/k8s.io/apiserver
+	k8s.io/cli-runtime => /Users/surbania/projects/kcp/kubernetes/staging/src/k8s.io/cli-runtime
+	k8s.io/client-go => /Users/surbania/projects/kcp/kubernetes/staging/src/k8s.io/client-go
+	k8s.io/cloud-provider => /Users/surbania/projects/kcp/kubernetes/staging/src/k8s.io/cloud-provider
+	k8s.io/cluster-bootstrap => /Users/surbania/projects/kcp/kubernetes/staging/src/k8s.io/cluster-bootstrap
+	k8s.io/code-generator => /Users/surbania/projects/kcp/kubernetes/staging/src/k8s.io/code-generator
+	k8s.io/component-base => /Users/surbania/projects/kcp/kubernetes/staging/src/k8s.io/component-base
+	k8s.io/component-helpers => /Users/surbania/projects/kcp/kubernetes/staging/src/k8s.io/component-helpers
+	k8s.io/controller-manager => /Users/surbania/projects/kcp/kubernetes/staging/src/k8s.io/controller-manager
+	k8s.io/cri-api => /Users/surbania/projects/kcp/kubernetes/staging/src/k8s.io/cri-api
+	k8s.io/csi-translation-lib => /Users/surbania/projects/kcp/kubernetes/staging/src/k8s.io/csi-translation-lib
+	k8s.io/kube-aggregator => /Users/surbania/projects/kcp/kubernetes/staging/src/k8s.io/kube-aggregator
+	k8s.io/kube-controller-manager => /Users/surbania/projects/kcp/kubernetes/staging/src/k8s.io/kube-controller-manager
+	k8s.io/kube-proxy => /Users/surbania/projects/kcp/kubernetes/staging/src/k8s.io/kube-proxy
+	k8s.io/kube-scheduler => /Users/surbania/projects/kcp/kubernetes/staging/src/k8s.io/kube-scheduler
+	k8s.io/kubectl => /Users/surbania/projects/kcp/kubernetes/staging/src/k8s.io/kubectl
+	k8s.io/kubelet => /Users/surbania/projects/kcp/kubernetes/staging/src/k8s.io/kubelet
+	k8s.io/kubernetes => /Users/surbania/projects/kcp/kubernetes
+	k8s.io/legacy-cloud-providers => /Users/surbania/projects/kcp/kubernetes/staging/src/k8s.io/legacy-cloud-providers
+	k8s.io/metrics => /Users/surbania/projects/kcp/kubernetes/staging/src/k8s.io/metrics
+	k8s.io/mount-utils => /Users/surbania/projects/kcp/kubernetes/staging/src/k8s.io/mount-utils
+	k8s.io/pod-security-admission => /Users/surbania/projects/kcp/kubernetes/staging/src/k8s.io/pod-security-admission
+	k8s.io/sample-apiserver => /Users/surbania/projects/kcp/kubernetes/staging/src/k8s.io/sample-apiserver
 )
