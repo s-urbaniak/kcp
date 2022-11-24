@@ -20,19 +20,16 @@ import (
 	"context"
 	"path"
 	"testing"
-	"time"
 
 	kcpkubernetesclientset "github.com/kcp-dev/client-go/kubernetes"
 	"github.com/kcp-dev/logicalcluster/v2"
 	"github.com/stretchr/testify/require"
 
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/apimachinery/pkg/util/wait"
 	"k8s.io/client-go/rest"
 
 	virtualoptions "github.com/kcp-dev/kcp/cmd/virtual-workspaces/options"
 	tenancyv1alpha1 "github.com/kcp-dev/kcp/pkg/apis/tenancy/v1alpha1"
-	tenancyv1beta1 "github.com/kcp-dev/kcp/pkg/apis/tenancy/v1beta1"
 	kcpclientset "github.com/kcp-dev/kcp/pkg/client/clientset/versioned"
 	"github.com/kcp-dev/kcp/test/e2e/framework"
 )
@@ -80,7 +77,8 @@ func TestUserHomeWorkspaces(t *testing.T) {
 				require.EqualError(t, err, `workspaces.tenancy.kcp.dev "~" is forbidden: User "user-2" cannot create resource "workspaces" in API group "tenancy.kcp.dev" at the cluster scope: workspace access not permitted`, "user-2 should not be allowed to get his home workspace even before it exists")
 			},
 		},
-		{
+		// TODO: the following tests have to be rewritten since we don't expose workspaces via the vw server
+		/*{
 			name: "Create a workspace in the non-existing home and have it created automatically in-workspace request",
 			work: func(ctx context.Context, t *testing.T, server runningServer) {
 				vwUser1Client := server.virtualPersonalClusterClients[0]
@@ -143,7 +141,7 @@ func TestUserHomeWorkspaces(t *testing.T) {
 				}, metav1.CreateOptions{})
 				require.EqualError(t, err, `workspaces.tenancy.kcp.dev "~" is forbidden: User "shard-admin" cannot create resource "workspaces" in API group "tenancy.kcp.dev" at the cluster scope: workspace access not permitted`, "system:master should be not able to trigger the automatic creation of user-1 home")
 			},
-		},
+		},*/
 	}
 
 	for i := range testCases {
