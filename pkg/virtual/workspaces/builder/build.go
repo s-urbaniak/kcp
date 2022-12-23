@@ -103,7 +103,7 @@ func newAuthorizer(cfg *clientrest.Config) func(ctx context.Context, a authorize
 
 		// check for <verb> permission on the ClusterWorkspace workspace subresource for the <resourceName>
 		clusterName := ctx.Value(registry.ClusterKey).(logicalcluster.Name)
-		authz, err := delegated.NewDelegatedAuthorizer(clusterName, sarClient)
+		authz, err := delegated.NewDelegatedAuthorizer(clusterName, sarClient, delegated.Options{})
 		if err != nil {
 			klog.Errorf("failed to get delegated authorizer for logical cluster %s", a.GetUser().GetName(), clusterName)
 			return authorizer.DecisionNoOpinion, "", nil //nolint:nilerr

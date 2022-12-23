@@ -142,8 +142,6 @@
 /pkg/virtual/framework/dynamic/apiserver/serving_info.go:185:3: function "Infof" should not be used, convert to contextual logging
 /pkg/virtual/framework/dynamic/apiserver/serving_info.go:185:3: function "V" should not be used, convert to contextual logging
 /pkg/virtual/initializingworkspaces/builder/build.go:216:7: function "Errorf" should not be used, convert to contextual logging
-/pkg/virtual/initializingworkspaces/builder/build.go:423:4: function "Info" should not be used, convert to contextual logging
-/pkg/virtual/initializingworkspaces/builder/build.go:423:4: function "V" should not be used, convert to contextual logging
 /pkg/virtual/syncer/builder/template.go:252:5: function "Errorf" should not be used, convert to contextual logging
 /pkg/virtual/syncer/transformations/transformer.go:102:11: Key positional arguments are expected to be inlined constant strings. Please replace SyncTargetKey provided with string value.
 /pkg/virtual/syncer/transformations/transformer.go:133:11: Additional arguments to WithValues should always be Key Value pairs. Please check if there is any key or value missing.
