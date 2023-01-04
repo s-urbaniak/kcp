@@ -34,6 +34,7 @@ import (
 	authenticationv1 "k8s.io/api/authentication/v1"
 	apiextensionsv1 "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
+	"k8s.io/apiserver/pkg/authorization/authorizer"
 	genericapirequest "k8s.io/apiserver/pkg/endpoints/request"
 	genericapiserver "k8s.io/apiserver/pkg/server"
 	"k8s.io/client-go/rest"
@@ -88,10 +89,7 @@ func BuildVirtualWorkspace(
 		v.Schema.Raw = bs // wipe schemas. We don't want validation here.
 	}
 
-	cachingAuthorizer := delegated.NewCaching(kubeClusterClient, delegated.CachingOptions{
-		Verb:     "initialize",
-		Resource: "workspacetypes",
-	})
+	cachingAuthorizer := newAuthorizer(kubeClusterClient, delegated.NewDelegatedAuthorizerCache(kubeClusterClient, delegated.CachingOptions{}))
 
 	getTenancyIdentity := func() (string, error) {
 		export, err := wildcardKcpInformers.Apis().V1alpha1().APIExports().Lister().Cluster(core.RootCluster).Get("tenancy.kcp.io")
@@ -419,3 +417,30 @@ func (a *singleResourceAPIDefinitionSetProvider) GetAPIDefinitionSet(ctx context
 }
 
 var _ apidefinition.APIDefinitionSetGetter = &singleResourceAPIDefinitionSetProvider{}
+
+func newAuthorizer(client kcpkubernetesclientset.ClusterInterface, authorizerCache *delegated.DelegatedAuthorizerCache) authorizer.AuthorizerFunc {
+	return func(ctx context.Context, attr authorizer.Attributes) (authorizer.Decision, string, error) {
+		clusterName, name, err := initialization.TypeFrom(corev1alpha1.LogicalClusterInitializer(dynamiccontext.APIDomainKeyFrom(ctx)))
+		if err != nil {
+			klog.V(2).Info(err)
+			return authorizer.DecisionNoOpinion, "unable to determine initializer", fmt.Errorf("access not permitted")
+		}
+
+		authz, err := authorizerCache.GetDelegatedAuthorizer(clusterName)
+		if err != nil {
+			return authorizer.DecisionNoOpinion, "error", err
+		}
+
+		SARAttributes := authorizer.AttributesRecord{
+			APIGroup:        tenancyv1alpha1.SchemeGroupVersion.Group,
+			APIVersion:      tenancyv1alpha1.SchemeGroupVersion.Version,
+			User:            attr.GetUser(),
+			Verb:            "initialize",
+			Name:            name,
+			Resource:        "workspacetypes",
+			ResourceRequest: true,
+		}
+
+		return authz.Authorize(ctx, SARAttributes)
+	}
+}
