@@ -91,6 +91,7 @@ func TestAPIBindingPermissionClaimsConditions(t *testing.T) {
 
 	t.Logf("set up service provider with permission claims")
 	setUpServiceProviderWithPermissionClaims(ctx, t, dynamicClusterClient, kcpClusterClient, providerPath, cfg, identityHash)
+	setUpServiceProviderWithPermissionClaims(ctx, dynamicClusterClient, kcpClusterClient, serviceProviderWorkspace, makeBroadPermissionClaims(identityHash), cfg, t)
 
 	t.Logf("set up binding, with invalid accepted claims hash")
 	bindConsumerToProvider(ctx, t, consumerPath, providerPath, kcpClusterClient, cfg, "xxxxxxx")
@@ -145,8 +146,8 @@ func TestAPIBindingPermissionClaimsConditions(t *testing.T) {
 		if cond.Status != v1.ConditionTrue {
 			return false, fmt.Sprintf("not done waiting for the condition to be valid, reason: %v - message: %v", cond.Reason, cond.Message)
 		}
-		if !reflect.DeepEqual(makePermissionClaims(identityHash), binding.Status.ExportPermissionClaims) {
-			return false, fmt.Sprintf("ExportPermissionClaims unexpected %v", cmp.Diff(makePermissionClaims(identityHash), binding.Status.ExportPermissionClaims))
+		if !reflect.DeepEqual(makeBroadPermissionClaims(identityHash), binding.Status.ExportPermissionClaims) {
+			return false, fmt.Sprintf("ExportPermissionClaims unexpected %v", cmp.Diff(makeBroadPermissionClaims(identityHash), binding.Status.ExportPermissionClaims))
 		}
 		return true, ""
 	}, wait.ForeverTestTimeout, 100*time.Millisecond, "unable to see valid claims condition")
@@ -171,7 +172,7 @@ func TestAPIBindingPermissionClaimsConditions(t *testing.T) {
 	}, wait.ForeverTestTimeout, 100*time.Millisecond, "unable to see valid claims condition")
 }
 
-func makePermissionClaims(identityHash string) []apisv1alpha1.PermissionClaim {
+func makeBroadPermissionClaims(identityHash string) []apisv1alpha1.PermissionClaim {
 	return []apisv1alpha1.PermissionClaim{
 		{
 			GroupResource: apisv1alpha1.GroupResource{Group: "", Resource: "configmaps"},
@@ -193,9 +194,16 @@ func makePermissionClaims(identityHash string) []apisv1alpha1.PermissionClaim {
 	}
 }
 
-func setUpServiceProviderWithPermissionClaims(ctx context.Context, t *testing.T, dynamicClusterClient kcpdynamic.ClusterInterface, kcpClusterClients kcpclientset.ClusterInterface, serviceProviderWorkspace logicalcluster.Path, cfg *rest.Config, identityHash string) {
+func setUpServiceProviderWithPermissionClaims(
+	ctx context.Context,
+	t *testing.T,
+	dynamicClusterClient kcpdynamic.ClusterInterface,
+	kcpClusterClients kcpclientset.ClusterInterface,
+	serviceProviderWorkspace logicalcluster.Name,
+	permissionClaims []apisv1alpha1.PermissionClaim,
+	cfg *rest.Config,
+) {
 	t.Helper()
-
 	t.Logf("Install today cowboys APIResourceSchema into service provider workspace %q", serviceProviderWorkspace)
 	serviceProviderClient, err := kcpclientset.NewForConfig(cfg)
 	require.NoError(t, err)
@@ -211,11 +219,11 @@ func setUpServiceProviderWithPermissionClaims(ctx context.Context, t *testing.T,
 		},
 		Spec: apisv1alpha1.APIExportSpec{
 			LatestResourceSchemas: []string{"today.cowboys.wildwest.dev"},
-			PermissionClaims:      makePermissionClaims(identityHash),
+			PermissionClaims:      permissionClaims,
 		},
 	}
-	_, err = kcpClusterClients.Cluster(serviceProviderWorkspace).ApisV1alpha1().APIExports().Create(ctx, cowboysAPIExport, metav1.CreateOptions{})
-	require.NoError(t, err)
+	_, err = kcpClusterClients.Cluster(serviceProviderWorkspace.Path()).ApisV1alpha1().APIExports().Create(ctx, cowboysAPIExport, metav1.CreateOptions{})
+	require.NoError(t, err, "Error creating cowboys APIExport", err)
 }
 
 func getAcceptedPermissionClaims(identityHash string) []apisv1alpha1.AcceptablePermissionClaim {
